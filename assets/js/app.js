@@ -1,10 +1,10 @@
 var svgWidth = 960;
-var svgHeight = 500;
+var svgHeight = 510;
 
 var margin = {
   top: 20,
   right: 40,
-  bottom: 80,
+  bottom: 85,
   left: 100
 };
 
@@ -131,7 +131,7 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
         .style("color", "black")
         .style("background-color", "white")
         .style("border", "solid")
-        .style("border-width", "1px")
+        .style("border-width", "2px")
         .style("border-radius", "5px")
         .style("padding", "10px")
         .offset([120, -60])
@@ -204,8 +204,9 @@ d3.csv("assets/data/data.csv").then(function(popdata, err) {
     .attr("cx", d => xLinearScale(d[chosenXAxis]))
     .attr("cy", d => yLinearScale(d[chosenYAxis]))
     .attr("r", 15)
-    .attr("fill", "purple")
-    .attr("opacity", ".7");
+    .attr("fill", "Blue")
+    .attr("text-anchor", "middle")
+    .attr("opacity", ".9");
 
     // Add State abbr. text to circles.
  var circletextGroup = chartGroup.selectAll()
@@ -216,9 +217,8 @@ d3.csv("assets/data/data.csv").then(function(popdata, err) {
      .attr("x", d => xLinearScale(d[chosenXAxis]))
      .attr("y", d => yLinearScale(d[chosenYAxis]))
      .style("font-size", "10px")
-     .style("text-color", "white")
      .style("text-anchor", "middle")
-     .style('fill', 'black');
+     .style('fill', 'white');
 
   // Create group for two x-axis labels
   var labelsGroup = chartGroup.append("g")
