@@ -54,7 +54,7 @@ function yScale(popdata, chosenYAxis) {
 
 
 // function used for updating xAxis var upon click on axis label
-function renderAxes(newXScale, xAxis) {
+function renderAxesx(newXScale, xAxis) {
   var bottomAxis = d3.axisBottom(newXScale);
 
   xAxis.transition()
@@ -65,15 +65,15 @@ function renderAxes(newXScale, xAxis) {
 }
 
 // function used for updating yAxis var upon click on axis label
-function renderAxes(newYScale, yAxis) {
-    var leftAxis = d3.axisleft(newYScale);
+function renderAxesy(newYScale, yAxis) {
+    var leftAxis = d3.axisLeft(newYScale);
   
     yAxis.transition()
     .duration(1000)
     .call(leftAxis);
 
 return yAxis;
-  }
+ }
 
 
 
@@ -128,8 +128,12 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
 
     var toolTip = d3.tip()
         .attr("class", "tooltip")
-        .style("background", "blue")
         .style("color", "black")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "1px")
+        .style("border-radius", "5px")
+        .style("padding", "10px")
         .offset([120, -60])
         .html(function(d) {
             if (chosenXAxis === "age") {
@@ -199,9 +203,9 @@ d3.csv("assets/data/data.csv").then(function(popdata, err) {
     .append("circle")
     .attr("cx", d => xLinearScale(d[chosenXAxis]))
     .attr("cy", d => yLinearScale(d[chosenYAxis]))
-    .attr("r", 20)
-    .attr("fill", "pink")
-    .attr("opacity", ".5");
+    .attr("r", 15)
+    .attr("fill", "purple")
+    .attr("opacity", ".7");
 
     // Add State abbr. text to circles.
  var circletextGroup = chartGroup.selectAll()
@@ -211,7 +215,8 @@ d3.csv("assets/data/data.csv").then(function(popdata, err) {
      .text(d => (d.abbr))
      .attr("x", d => xLinearScale(d[chosenXAxis]))
      .attr("y", d => yLinearScale(d[chosenYAxis]))
-     .style("font-size", "12px")
+     .style("font-size", "10px")
+     .style("text-color", "white")
      .style("text-anchor", "middle")
      .style('fill', 'black');
 
@@ -287,7 +292,7 @@ var circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
             xLinearScale = xScale(popdata, chosenXAxis);
 
             // Updates x axis with transition.
-            xAxis = renderXAxes(xLinearScale, xAxis);
+            xAxis = renderAxesx(xLinearScale, xAxis);
 
             // Changes classes to change bold text.
             if (chosenXAxis === "poverty") {
@@ -338,7 +343,9 @@ var circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
             yLinearScale = yScale(popdata, chosenYAxis);
 
             // Updates y axis with transition.
-            yAxis = renderYAxes(yLinearScale, yAxis);
+            yAxis = renderAxesy(yLinearScale, yAxis);
+
+            console.log(chosenYAxis)
 
             // Changes classes to change bold text.
             if (chosenYAxis === "healthcare") {
