@@ -3,15 +3,15 @@
 
 ## Introduction
 
-⋅⋅⋅ For this data visualization project I was tasked with analyzing the health risks facing ⋅⋅⋅ particular demographics. 
+For this data visualization project I was tasked with analyzing the health risks facing ⋅⋅⋅ particular demographics. 
 
-⋅⋅⋅ The data set included with the assignment is based on 2014 ACS 1-year estimates: https://⋅⋅⋅ factfinder.census.gov/faces/nav/jsf/pages/searchresults.xhtml, but you are free to ⋅⋅⋅ investigate a different data set. The current data set includes data on rates of income, ⋅⋅⋅ obesity, poverty, etc. by state. MOE stands for "margin of error."
+The data set included with the assignment is based on 2014 ACS 1-year estimates: https://factfinder.census.gov/faces/nav/jsf/pages/searchresults.xhtml, but you are free to investigate a different data set. The current data set includes data on rates of income, obesity, poverty, etc. by state. MOE stands for "margin of error."
 ---
 
 ## Code
-First I setup my SVG parameter variables 
+### SVG parameter variables setup.
 
-```
+```javascript
 var svgWidth = 960;
 var svgHeight = 510;
 
@@ -26,7 +26,9 @@ var margin = {
 var width = svgWidth - margin.left - margin.right;
 var height = svgHeight - margin.top - margin.bottom;
 ```
+### SVG Wrapper.
 
+```javascript
 // Create an SVG wrapper, append an SVG group that will hold our chart,
 // and shift the latter by left and top margins.
 var svg = d3
@@ -39,10 +41,17 @@ var svg = d3
 var chartGroup = svg.append("g")
   .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
+```
+
+### Initial Parameters for each of the Axis
+```javascript 
 // Initial Params
 var chosenXAxis = "poverty";
 var chosenYAxis = "healthcare";
+```
 
+### Function used to update the scaling of each Axis when clicking the label
+```javascript
 // function used for updating x-scale var upon click on axis label
 function xScale(popdata, chosenXAxis) {
   // create scales
@@ -92,9 +101,10 @@ return yAxis;
  }
 
 
+```
+### Function used to update the circles when label is clicked. This also updates the Tooltip that appears when you hover your mouse over a circle.
 
-
-
+```javascript
 // function used for updating circles group with a transition to
 // new circles
 function renderCircles(circlesGroup, newXScale, newYScale, chosenXAxis, chosenYAxis) {
@@ -175,6 +185,12 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
 
   return circlesGroup;
 }
+
+```
+
+### Retrive the data from the Population Data CSV Files. Using this data the initial scatter chart, labels, circles and tooltips are populated.
+
+```javascript
 
 // Retrieve data from the CSV file and execute everything below
 d3.csv("assets/data/data.csv").then(function(popdata, err) {
@@ -286,10 +302,15 @@ var obesityLabel = labelsGroup.append("text")
     .text("Obesity (%)");
 
 
-
-
     // Update tool tip function above csv import.
-var circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
+var circlesGroup = updateToolTip(chosenXAxis
+
+, chosenYAxis, circlesGroup);
+
+```
+### Event listener setup for Label choice.
+
+```javascript
 
   // x axis labels event listener
   labelsGroup.selectAll("text")
@@ -418,6 +439,9 @@ var circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
     }
     
 });
-}).catch(function(error) {
-  console.log(error);
-});
+```
+
+## See the visualisation in action
+
+https://jdickenson91.github.io/D3-Challenge/
+
